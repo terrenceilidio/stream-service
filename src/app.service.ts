@@ -8,7 +8,6 @@ export class AppService {
 
   startStream(userId:string,video:string): string {
     console.log(this.data)
-    
     if(!this.data[userId]){
       this.data[userId] = {};
     }
@@ -18,10 +17,13 @@ export class AppService {
         //already streaming selected movie
         return video;
     }
-     const total = Object.keys(currentTotalStreams).length;
 
-     if(total > MAX_MOVIES){
-        throw new Error("Max stream limit reached ");
+     const currentUserStreams = Object.keys(currentTotalStreams);
+     
+     const total = currentUserStreams.filter((currentStream) => currentTotalStreams[currentStream]).length;
+
+     if(total >= MAX_MOVIES){
+        throw new Error("Max stream limit reached");
      }
 
      this.data[userId][video] = true;
