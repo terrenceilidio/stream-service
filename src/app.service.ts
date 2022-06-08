@@ -6,16 +6,15 @@ export class AppService {
   
   data = {}
 
-  startStream(userId:string,video:string): string {
-    console.log(this.data)
+  startStream(userId:string,stream:string): string {
     if(!this.data[userId]){
       this.data[userId] = {};
     }
     const currentTotalStreams = this.data[userId];
   
-    if(currentTotalStreams[video]){
+    if(currentTotalStreams[stream]){
         //already streaming selected movie
-        return video;
+        return stream;
     }
 
      const currentUserStreams = Object.keys(currentTotalStreams);
@@ -26,30 +25,26 @@ export class AppService {
         throw new Error("Max stream limit reached");
      }
 
-     this.data[userId][video] = true;
-     return video;
+     this.data[userId][stream] = true;
+     return stream;
   }
 
-  stopStream(userId:string,video:string) {
-
-    console.log(this.data)
+  stopStream(userId:string,stream:string) {
 
     if(!this.data[userId]){
        throw new Error("User doesn't exist");
     }
 
-    if(!this.data[userId][video]){
+    if(!this.data[userId][stream]){
       throw new Error("You're not currently watching the selected movie");
     }
     
-    this.data[userId][video] = false;
+    this.data[userId][stream] = false;
 
-    return  video
+    return  stream
   }
   
   getUserStreams(userId:string){
-    
-    console.log(this.data)
 
     if(!this.data[userId]){
       throw new Error("User doesn't exist");
@@ -57,6 +52,4 @@ export class AppService {
 
     return this.data[userId];
   }
-
-
 }

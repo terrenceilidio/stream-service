@@ -75,4 +75,28 @@ Nest is [MIT licensed](LICENSE).
 
 Notes
 
-I'm using objects because lookup time will be O(1)
+end points
+
+
+
+url = http://localhost:3000/stream
+
+APIs
+
+url/start ->  starts a stream
+
+url/stop -> stops a stream
+
+url/get/for/{userId} -> get current streams for specified user
+
+
+
+I'm using objects because lookup time will be O(1) TODO(I will add DynamoDB to replace this)
+
+
+TODO
+
+1. Deploy my docker container to ECS
+2. setup a load balance
+3. setup a monotoring 
+
