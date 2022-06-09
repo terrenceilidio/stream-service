@@ -1,0 +1,75 @@
+*2
+$6
+SELECT
+$1
+0
+*3
+$3
+SET
+$1
+1
+$20
+{"rush hour 4":true}
+*3
+$3
+SET
+$1
+1
+$39
+{"rush hour 4":true,"rush hour 3":true}
+*3
+$3
+SET
+$1
+1
+$58
+{"rush hour 4":true,"rush hour 3":true,"rush hour 2":true}
+*3
+$3
+SET
+$1
+1
+$59
+{"rush hour 4":true,"rush hour 3":false,"rush hour 2":true}
+*3
+$3
+SET
+$1
+1
+$78
+{"rush hour 4":true,"rush hour 3":false,"rush hour 2":true,"rush hour 1":true}
+*3
+$3
+SET
+$1
+2
+$20
+{"rush hour 1":true}
+*3
+$3
+SET
+$2
+02
+$20
+{"rush hour 1":true}
+*3
+$3
+SET
+$2
+02
+$40
+{"rush hour 1":true,"rush hour 12":true}
+*3
+$3
+SET
+$2
+02
+$60
+{"rush hour 1":true,"rush hour 12":true,"rush hour 14":true}
+*3
+$3
+SET
+$2
+02
+$61
+{"rush hour 1":true,"rush hour 12":false,"rush hour 14":true}

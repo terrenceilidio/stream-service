@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { createClient } from 'redis';
+
+const client = createClient({
+  url: 'redis://default:terrence@redis-db:6379'
+});
+(async () => {
+  await client.connect()
+})()
 
 const MAX_MOVIES = 3;
- @Injectable()
+@Injectable()
 export class AppService {
-  
-  data = {}
-
-  startStream(userId:string,stream:string): string {
-    if(!this.data[userId]){
-      this.data[userId] = {};
-    }
-    const currentTotalStreams = this.data[userId];
+  async startStream(userId:string,stream:string): Promise<string> {
+    const stringifiedUserStreams = await client.get(userId)
+    const currentTotalStreams = JSON.parse(stringifiedUserStreams || '{}');
   
     if(currentTotalStreams[stream]){
         //already streaming selected movie
@@ -25,31 +28,39 @@ export class AppService {
         throw new Error("Max stream limit reached");
      }
 
-     this.data[userId][stream] = true;
+     currentTotalStreams[stream] = true;
+
+     await client.set(userId, JSON.stringify(currentTotalStreams));
      return stream;
   }
 
-  stopStream(userId:string,stream:string) {
+  async stopStream(userId:string,stream:string) {
+    const stringifiedUserStreams = await client.get(userId)
 
-    if(!this.data[userId]){
-       throw new Error("User doesn't exist");
+    if(!stringifiedUserStreams){
+      throw new Error("User doesn't exist");
     }
 
-    if(!this.data[userId][stream]){
+    const currentTotalStreams = JSON.parse(stringifiedUserStreams);
+
+    if(!currentTotalStreams[stream]){
       throw new Error("You're not currently watching the selected movie");
     }
     
-    this.data[userId][stream] = false;
+    currentTotalStreams[stream] = false;
+    await client.set(userId, JSON.stringify(currentTotalStreams));
 
     return  stream
   }
   
-  getUserStreams(userId:string){
-
-    if(!this.data[userId]){
+  async getUserStreams(userId:string){
+    const stringifiedUserStreams = await client.get(userId)
+    
+    if(!stringifiedUserStreams){
       throw new Error("User doesn't exist");
     }
-
-    return this.data[userId];
+    
+    const currentTotalStreams = JSON.parse(stringifiedUserStreams);
+    return currentTotalStreams;
   }
 }

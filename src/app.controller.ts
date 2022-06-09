@@ -6,27 +6,27 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Post('/start')
-  startStream(@Body() body: any): string {
+  async startStream(@Body() body: any): Promise<string> {
     try {
-      return this.appService.startStream(body.userId, body.video);
+      return await this.appService.startStream(body.userId, body.video);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post('/stop')
-  stopStream(@Body() body: any): string {
+  async stopStream(@Body() body: any): Promise<string> {
     try {
-      return this.appService.stopStream(body.userId, body.video);
+      return await this.appService.stopStream(body.userId, body.video);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Get('get/for/:userId')
-  getUserStreams(@Param() params): any {
+  async getUserStreams(@Param() params): Promise<any> {
     try {
-      return this.appService.getUserStreams(params.userId);
+      return await this.appService.getUserStreams(params.userId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

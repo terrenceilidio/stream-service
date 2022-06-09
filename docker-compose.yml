@@ -1,12 +1,18 @@
-version: '3.4'
+version: '3.7'
 
 services:
-  hooliganstreamservice:
+  hooligan-stream-service:
     image: hooliganstreamservice
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
+    build: .
     ports:
       - 3000:3000
+      
+  redis-db:
+    image: "bitnami/redis"
+    volumes:
+      - ./data/redis:/bitnami/redis/data
+    environment:
+      - REDIS_PASSWORD=terrence
+    ports:
+      - "6379:6379"
+ 
